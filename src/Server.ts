@@ -1,38 +1,20 @@
-import express from "express";
-import * as http from 'http';
 import bodyParser from "body-parser";
-import { IServer } from "./Server.types";
+import { createServer } from "./serverFactory";
+import { IServer, SERVERS } from "./Server.types";
+import { IServer as IConcreteServer } from "./servers/types";
 
 export default class Server implements IServer {
-  private _app: express.Express;
-  
-  get app(): express.Express {
-    return this._app;
-  }
-  
-  private _instance: http.Server;
+  private _instance: IConcreteServer;
 
-  get instance(): http.Server {
-   return this._instance;
+  constructor(type: SERVERS) {
+    this._instance = createServer(type);
+    this._instance.setMiddlewares([
+      bodyParser.json(),
+      bodyParser.urlencoded({ extended: true }),
+    ]);
   }
 
-  constructor() {
-    this._app = express();
-
-    this._app.set("port", process.env.PORT || 3000);
-
-    this.configureMiddleware();
-  }
-
-  public run(): void {
-    const port = this._app.get('port');
-    this._instance = this._app.listen(port, () => {
-      console.log(`Server is listening on PORT: ${port}`);
-    })
-  }
-
-  private configureMiddleware(): void {
-    this._app.use(bodyParser.json());
-    this._app.use(bodyParser.urlencoded({ extended: true }));
+  public run(port = 3000): void {
+    this._instance.run(port);
   }
 }

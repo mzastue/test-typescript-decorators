@@ -1,4 +1,4 @@
-import Server from "./Server";
+import * as Service from "./service";
 
-const express = new Server();
-express.run();
+const server = Service.createExpressServer();
+server.run();

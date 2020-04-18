@@ -1,3 +1,7 @@
 export interface IServer {
-  run: () => void;
+  run: (port?: number) => void;
+}
+
+export enum SERVERS {
+  EXPRESS,
 }
