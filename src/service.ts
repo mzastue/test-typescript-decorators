@@ -1,8 +1,9 @@
 import Server from "./Server";
-import { SERVERS, IServer } from "./Server.types";
+import { IServer } from "./Server.types";
+import ExpressServer from "./servers/Express";
 
 const createExpressServer = (): IServer => {
-  return new Server(SERVERS.EXPRESS);
+  return new Server(new ExpressServer());
 }
 
 export {

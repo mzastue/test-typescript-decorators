@@ -1,13 +1,12 @@
 import bodyParser from "body-parser";
-import { createServer } from "./serverFactory";
-import { IServer, SERVERS } from "./Server.types";
+import { IServer } from "./Server.types";
 import { IServer as IConcreteServer } from "./servers/types";
 
-export default class Server implements IServer {
-  private _instance: IConcreteServer;
+export default class Server<T extends IConcreteServer> implements IServer {
+  private _instance: T;
 
-  constructor(type: SERVERS) {
-    this._instance = createServer(type);
+  constructor(engine: T) {
+    this._instance = engine;
     this._instance.setMiddlewares([
       bodyParser.json(),
       bodyParser.urlencoded({ extended: true }),
