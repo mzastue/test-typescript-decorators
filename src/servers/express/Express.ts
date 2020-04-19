@@ -1,8 +1,8 @@
 import express from "express";
-import { IServer } from "./types";
+import { ServerEngine } from "../types";
 import { NextHandleFunction } from "connect";
 
-export default class ExpressServer implements IServer {
+export default class ExpressServer implements ServerEngine {
   private _app: express.Express;
 
   get app(): express.Express {

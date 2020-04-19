@@ -1,8 +1,8 @@
 import bodyParser from "body-parser";
 import { IServer } from "./Server.types";
-import { IServer as IConcreteServer } from "./servers/types";
+import { ServerEngine } from "./servers/types";
 
-export default class Server<T extends IConcreteServer> implements IServer {
+export default class Server<T extends ServerEngine> implements IServer {
   private _instance: T;
 
   constructor(engine: T) {
